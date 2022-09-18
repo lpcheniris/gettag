@@ -1,15 +1,15 @@
 import { configureStore, ThunkAction, Action } from '@reduxjs/toolkit';
-import QueryReducer from './reducer/QuerySlice';
+// import QueryReducer from './reducer/QuerySlice';
 import WordSlice from './reducer/WordSlice';
-import CheckRememberSlice from './reducer/CheckRememberSlice';
-import WordListSlice from './reducer/WordListSlice';
+// import CheckRememberSlice from './reducer/CheckRememberSlice';
+// import WordListSlice from './reducer/WordListSlice';
 
 export const store = configureStore({
   reducer: {
-    query: QueryReducer,
-    word: WordSlice,
-    checkRemember: CheckRememberSlice,
-    allWordList: WordListSlice
+    // query: QueryReducer,
+    word: WordSlice
+    // checkRemember: CheckRememberSlice,
+    // allWordList: WordListSlice
   },
   middleware: getDefaultMiddleware =>
   getDefaultMiddleware({

@@ -1,35 +1,32 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { RootState } from '../store';
-import { generateRememberList} from '../../utils'
-
 
 export interface wordState {
-  wordList: [],
-  rememberList: [],
-  updateResult: any
+  rootWordList: [],
+  tagWordList:[]
+  
 }
 
 const initialState: wordState = {
-  wordList: [],
-  rememberList: [],
-  updateResult: {}
+    rootWordList: [],
+    tagWordList:[]
+
 };
-export const wordListAsync = createAsyncThunk(
-  'word/fetchWordList',
+export const rootWordListAsync = createAsyncThunk(
+  'word/getWordRootWord',
   async () => {
-    const response = await fetch('/word/queryByCondition/remember').then(response => response.json());
+    const response = await fetch('/word/getWordRootWord').then(response => response.json());
     return response;
   }
 );
 
-export const updateWordStatusAsync = createAsyncThunk(
-  'word/updateStatus',
-  async (data:any) => {
-    const response = await fetch(`/word/${data.query}`, { method: "put", body: JSON.stringify(data.status), headers: {"content-type": "application/json"}})
-    return response 
+export const createTagAsync = createAsyncThunk(
+  'word/createTag',
+  async (params:object) => {
+    const response = await fetch('/word/createTag',{method: "post", body: JSON.stringify({"rootWord": params}), headers: {'content-type': 'application/json'}}).then(response => response.json());
+    return response;
   }
-)
-
+);
 
 export const wordSlice = createSlice({
   name: 'word',
@@ -37,19 +34,18 @@ export const wordSlice = createSlice({
   reducers: {},
   extraReducers: (builder: any) => {
     builder
-      .addCase(wordListAsync.fulfilled, (state: any, action: any) => {
-        state.wordList = action.payload;
-        state.rememberList = generateRememberList(action.payload)
+      .addCase(rootWordListAsync.fulfilled, (state: any, action: any) => {
+        state.rootWordList = action.payload;
       })
-      .addCase(updateWordStatusAsync.fulfilled, (state: any, action: any) => {
-        state.updateResult = action.payload;
-        
-      })
+      .addCase(createTagAsync.fulfilled, (state: any, action: any) => {
+        state.tagWordList = action.payload;
+      })      
   }
 })
 
-export const selectRememberList = (state: RootState) => state.word.rememberList;
-export const selectWordList = (state: RootState) => state.word.wordList;
+
+export const getRootWordList = (state: RootState) => state.word.rootWordList;
+export const getTagWordList = (state: RootState) => state.word.tagWordList;
 
 export default wordSlice.reducer;
 
