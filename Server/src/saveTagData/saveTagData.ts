@@ -2,7 +2,7 @@
 
 import mongoose from "mongoose"
 
-import { data } from "./keywords_architecture_models.json"
+import { data } from "./keywords_chinatraditional.json"
 import setupMongo from "../config/mongo";
 import { Word } from "../models/Word"
 
