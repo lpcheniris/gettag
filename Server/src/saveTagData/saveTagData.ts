@@ -2,13 +2,14 @@
 
 import mongoose from "mongoose"
 
-import { data } from "./keywords_chinatraditional.json"
+import { data as architecture_models } from "./keywords_architecture_models.json"
+import { data as keywords_chinatraditional } from "./keywords_chinatraditional.json"
 import setupMongo from "../config/mongo";
 import { Word } from "../models/Word"
 
 setupMongo() 
 
-async function fixPlans() {
+async function updateWord(data) {
 
     data.forEach(async (v) => {
         try {
@@ -26,4 +27,5 @@ async function fixPlans() {
   
 }
 
-fixPlans()
+updateWord(architecture_models)
+updateWord(keywords_chinatraditional)
