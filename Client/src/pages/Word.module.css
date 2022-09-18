@@ -1,0 +1,38 @@
+.wrapper {
+    margin-top: 10%;
+    display: flex;
+    flex-direction: column;
+    padding: 10%;
+}
+
+.wrapper button {
+    width: 100px;
+    margin: 20px auto;
+}
+
+.rootWordWrapper div{
+  margin: auto 10px;
+}
+
+.rootWord {
+    border-radius: 5px;
+    border: solid 1px;
+    border-color: rgb(255, 255, 255);
+    display: inline-block;
+    padding: 5px;
+    text-align: center;
+}
+.selectRootWord {
+    background-color: #6767ab;
+}
+.unSelectRootWord {
+    background-color: none;
+  
+}
+
+.tagWrapper{
+    border-color: 6767ab;
+    border:solid 1px;
+    border-radius: 5px;
+    padding: 10px;
+}

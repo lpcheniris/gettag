@@ -9,17 +9,21 @@ import { Word } from "../models/Word"
 setupMongo() 
 
 async function fixPlans() {
-  try {
-    data.forEach((v) => {
-      new Word(v).save()
+
+    data.forEach(async (v) => {
+        try {
+            const words = await Word.find({ word: v.word}).exec()
+            if(words.length==0) {
+                new Word(v).save()
+            } else {
+                console.log(`${v.word} is repetition`)
+            }
+        } catch(e) {
+          console.log(encodeURI)
+        } 
      })
 
-  } catch(e) {
-    console.error(e)
-  } finally {
-    // mongoose.disconnect();
-    console.log("Save Words Seccefully!")
-  }
+  
 }
 
 fixPlans()
