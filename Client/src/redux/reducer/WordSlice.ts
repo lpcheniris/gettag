@@ -3,22 +3,41 @@ import { RootState } from '../store';
 
 export interface wordState {
   rootWordList: [],
-  tagWordList:[]
+  tagWordList:[],
+  wordList: []
   
 }
 
 const initialState: wordState = {
     rootWordList: [],
-    tagWordList:[]
+    tagWordList:[],
+    wordList:[]
 
 };
 export const rootWordListAsync = createAsyncThunk(
-  'word/getWordRootWord',
+  'word/getRootWord',
   async () => {
-    const response = await fetch('/word/getWordRootWord').then(response => response.json());
+    const response = await fetch('/word/getRootWord').then(response => response.json());
     return response;
   }
 );
+export const wordListAsync = createAsyncThunk(
+  'word/getWordList',
+  async () => {
+    const response = await fetch('/word/getWordList').then(response => response.json());
+    return response;
+  }
+);
+
+
+export const saveWordJsonAsync = createAsyncThunk(
+  'word/saveWordJson',
+  async (params:any) => {
+    const response = await fetch('/word/saveWordJson',{method: "post", body: JSON.stringify({"wordJson": params}), headers: {'content-type': 'application/json'}}).then(response => response.json());
+    return response;
+  }
+);
+
 
 export const createTagAsync = createAsyncThunk(
   'word/createTag',
@@ -27,6 +46,15 @@ export const createTagAsync = createAsyncThunk(
     return response;
   }
 );
+
+export const deleteWordAsync = createAsyncThunk(
+  'word/deleteWord',
+  async (word:any) => {
+    const response = await fetch(`/word/deleteWord/${word}`,{method: "delete"}).then(response => response.json());
+    return response;
+  }
+);
+
 
 export const wordSlice = createSlice({
   name: 'word',
@@ -39,13 +67,17 @@ export const wordSlice = createSlice({
       })
       .addCase(createTagAsync.fulfilled, (state: any, action: any) => {
         state.tagWordList = action.payload;
-      })      
+      })
+      .addCase(wordListAsync.fulfilled, (state: any, action: any) => {
+        state.wordList = action.payload
+      })         
   }
 })
 
 
 export const getRootWordList = (state: RootState) => state.word.rootWordList;
 export const getTagWordList = (state: RootState) => state.word.tagWordList;
+export const getWordList = (state: RootState) => state.word.wordList;
 
 export default wordSlice.reducer;
 
