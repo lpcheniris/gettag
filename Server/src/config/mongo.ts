@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
 
 function setupMongo(): void {
-  const mongoDB = "mongodb://localhost:27019/getTag";
+  const mongoDB = "mongodb://localhost:27019/gettag";
 
 
   mongoose.connect(mongoDB, { useNewUrlParser: true });
