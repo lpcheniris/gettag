@@ -41,8 +41,8 @@ export const saveWordJsonAsync = createAsyncThunk(
 
 export const createTagAsync = createAsyncThunk(
   'word/createTag',
-  async (params:object) => {
-    const response = await fetch('/word/createTag',{method: "post", body: JSON.stringify({"rootWord": params}), headers: {'content-type': 'application/json'}}).then(response => response.json());
+  async (params:any) => {
+    const response = await fetch('/word/createTag',{method: "post", body: JSON.stringify({"rootWord": params.selectWord, "tagCount":params.tagCount}), headers: {'content-type': 'application/json'}}).then(response => response.json());
     return response;
   }
 );

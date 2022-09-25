@@ -17,15 +17,18 @@ WordController.get('/getRootWord', async (req: Request, res: Response, next: Nex
 WordController.post('/createTag', async (req: Request, res: Response, next: NextFunction) => {
     try {
         const params = req.body.rootWord
+        const tagCount = req.body.tagCount
+        const oneTagCount = Math.floor(tagCount / params.length)
+        // console.log(oneTagCount)
         let result = []
         for(let i =0; i< params.length; i++){
            const words = await Word.find({ rootWord: params[i]}).exec()
-           if(words.length <= 10) {
+           if(words.length <= tagCount) {
             result = result.concat(words)
            } else {
-            let maxRandomCount = words.length - 10
+            let maxRandomCount = words.length - oneTagCount
             let startCount = Math.floor(Math.random()*maxRandomCount)
-            result = result.concat(words.slice(startCount, startCount + 10))
+            result = result.concat(words.slice(startCount, startCount + oneTagCount))
            }
         }
         res.status(200).send( result );

@@ -1,9 +1,7 @@
 import { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom'
 import styles from './WordList.module.css';
 import { useAppSelector, useAppDispatch } from '../redux/hooks';
-import { getRootWordList, wordListAsync, deleteWordAsync, getWordList,saveWordJsonAsync } from '../redux/reducer/WordSlice'
-import { isEmpty } from '../utils';
+import { wordListAsync, deleteWordAsync, getWordList, saveWordJsonAsync } from '../redux/reducer/WordSlice'
 
 export default function WordList() {
     const [wordJson, setWordJson] = useState()
@@ -13,13 +11,13 @@ export default function WordList() {
     useEffect(() => {
         dispatch(wordListAsync())
     }, [dispatch])
-    function handleDelete(word:any) {
+    function handleDelete(word: any) {
         dispatch(deleteWordAsync(word)).then(() => {
             dispatch(wordListAsync())
         })
 
     }
-    function handleWordChange(e:any) {
+    function handleWordChange(e: any) {
         setWordJson(e.target.value)
     }
 
@@ -31,17 +29,17 @@ export default function WordList() {
 
     return (
         <div className={styles.wrapper}>
-           <textarea onChange={handleWordChange}></textarea>
-           <button onClick={handleSaveTag}>保存标签</button>
+            <textarea onChange={handleWordChange}></textarea>
+            <button onClick={handleSaveTag}>保存标签</button>
             <div>Total:{worldList.length}</div>
             <table>
-             {worldList.map((v:any, i) => <tr>
-                <td>{v.rootWord}</td>
-                <td>{v.word}</td>
-                <td>{v.chinese}</td>
-                <td>{v.count}</td>
-                <button onClick={() => handleDelete(v.word)}>删除</button>
-             </tr>)}
+                <tbody>{worldList.map((v: any, i) => <tr key={i}>
+                    <td>{v.rootWord}</td>
+                    <td>{v.word}</td>
+                    <td>{v.chinese}</td>
+                    <td>{v.count}</td>
+                    <td><button onClick={() => handleDelete(v.word)}>删除</button></td>
+                </tr>)}</tbody>
             </table>
 
         </div>)

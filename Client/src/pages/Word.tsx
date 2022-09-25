@@ -1,5 +1,4 @@
 import { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom'
 import styles from './Word.module.css';
 import { useAppSelector, useAppDispatch } from '../redux/hooks';
 import { getRootWordList, rootWordListAsync, createTagAsync, getTagWordList } from '../redux/reducer/WordSlice'
@@ -8,6 +7,7 @@ import WordList from './WordList'
 
 export default function Word() {
     const [selectWord, setSelectWord] = useState<string[]>([])
+    const [tagCount, setTagCount] = useState<number>(10)
     const rootWordList = useAppSelector(getRootWordList);
     const tagWorldList = useAppSelector(getTagWordList);
     const dispatch = useAppDispatch();
@@ -20,14 +20,14 @@ export default function Word() {
         if (index < 0) {
             newState = [...selectWord, word]
         } else {
-            newState = selectWord.filter(item => item != word)
+            newState = selectWord.filter(item => item !== word)
 
         }
         setSelectWord(newState)
 
     }
     function handleCreateTag() {
-        dispatch(createTagAsync(selectWord))
+        dispatch(createTagAsync({selectWord, tagCount}))
     }
     return (
         <div>
@@ -42,7 +42,12 @@ export default function Word() {
                     #{rootWord}
                 </div>)}
             </div>
-            <button onClick={handleCreateTag}>生成标签</button>
+            <div className={styles.stepWrapper}>
+                {[5,10, 15, 20, 25, 30].map((v, i) => 
+                <span className={v===tagCount ? styles.selectedStep : "" } onClick ={() => setTagCount(v)} key={i}>{v}</span>
+                )}
+            </div>
+            <button onClick={handleCreateTag}>生成{tagCount}个标签</button>
             {!isEmpty(tagWorldList) ? <div className={styles.tagWrapper}>{
                 tagWorldList.map((item: any, index) => <span key={index}>{` #${item.word}`}</span>)
             }</div> : null
