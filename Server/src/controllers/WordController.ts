@@ -61,7 +61,7 @@ WordController.post('/saveWordJson', async (req: Request, res: Response, next: N
         const wordArray = JSON.parse(req.body.wordJson).data
         wordArray.forEach(async (v:any) => {
             try {
-                const words = await Word.find({ word: v.word}).exec()
+                const words = await Word.find({ word: v.word, rootWord: v.rootWord}).exec()
                 if(words.length==0) {
                     new Word(v).save()
                 } else {
